@@ -23,20 +23,19 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionResponse>> findAll(){
+    public ResponseEntity<List<TransactionResponse>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<?> delete(@PathVariable Long transactionId){
+    public ResponseEntity<?> delete(@PathVariable Long transactionId) {
         service.delete(transactionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     @PatchMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponse> update(@RequestBody TransactionRequest request){
-        //TODO
-        return null;
+    public ResponseEntity<TransactionResponse> update(@PathVariable Long transactionId, @RequestBody TransactionRequest request) {
+        return new ResponseEntity<>(service.update(transactionId, request), HttpStatus.OK);
     }
 
 }

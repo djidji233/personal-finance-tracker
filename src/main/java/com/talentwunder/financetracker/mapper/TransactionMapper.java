@@ -8,15 +8,14 @@ import org.springframework.stereotype.Component;
 @Component
 public class TransactionMapper {
 
-    public static Transaction mapRequestToEntity(TransactionRequest request){
-        return Transaction.builder()
-                .type(request.getType())
-                .amount(request.getAmount())
-                .description(request.getDescription())
-                .build();
+    public static Transaction mapRequestToEntity(Transaction entity, TransactionRequest request) {
+        entity.setType(request.getType() == null ? entity.getType() : request.getType());
+        entity.setAmount(request.getAmount() == null ? entity.getAmount() : request.getAmount());
+        entity.setDescription(request.getDescription() == null ? entity.getDescription() : request.getDescription());
+        return entity;
     }
 
-    public static TransactionResponse mapEntityToResponse(Transaction entity){
+    public static TransactionResponse mapEntityToResponse(Transaction entity) {
         return TransactionResponse.builder()
                 .id(entity.getId())
                 .type(entity.getType())

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -19,15 +20,21 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     public TransactionResponse create(TransactionRequest request) {
-        Transaction entity = TransactionMapper.mapRequestToEntity(request);
+        Transaction entity = TransactionMapper.mapRequestToEntity(new Transaction(), request);
         repository.save(entity);
         return TransactionMapper.mapEntityToResponse(entity);
     }
 
     @Override
     public TransactionResponse update(Long transactionId, TransactionRequest request) {
-        //TODO
-        return null;
+        Optional<Transaction> optionalEntity = repository.findById(transactionId);
+        if (optionalEntity.isPresent()) {
+            Transaction entity = TransactionMapper.mapRequestToEntity(optionalEntity.get(), request);
+            repository.save(entity);
+            return TransactionMapper.mapEntityToResponse(entity);
+        } else {
+            return null; //TODO exceptions
+        }
     }
 
     @Override
