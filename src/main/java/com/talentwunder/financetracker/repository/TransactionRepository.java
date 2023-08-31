@@ -1,6 +1,6 @@
 package com.talentwunder.financetracker.repository;
 
-import com.talentwunder.financetracker.model.db.Transaction;
+import com.talentwunder.financetracker.model.entity.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

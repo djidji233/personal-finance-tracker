@@ -3,7 +3,6 @@ package com.talentwunder.financetracker.controller;
 import com.talentwunder.financetracker.model.request.TransactionRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
 import com.talentwunder.financetracker.service.transaction.TransactionService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,8 +13,11 @@ import java.util.List;
 @RequestMapping("/transaction")
 public class TransactionController {
 
-    @Autowired
-    private TransactionService service;
+    private final TransactionService service;
+
+    public TransactionController(TransactionService service) {
+        this.service = service;
+    }
 
     @PostMapping
     public ResponseEntity<TransactionResponse> create(@RequestBody TransactionRequest request) {

@@ -1,6 +1,6 @@
 package com.talentwunder.financetracker.model.response;
 
-import com.talentwunder.financetracker.model.db.TransactionType;
+import com.talentwunder.financetracker.model.entity.TransactionType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
