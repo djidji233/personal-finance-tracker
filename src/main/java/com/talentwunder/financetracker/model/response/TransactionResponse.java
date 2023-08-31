@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 public class TransactionResponse {
     private Long id;
     private TransactionType type;
-    private Long amount;
+    private Double amount;
     private String description;
 }

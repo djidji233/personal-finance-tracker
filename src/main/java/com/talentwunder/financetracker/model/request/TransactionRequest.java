@@ -10,6 +10,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class TransactionRequest {
     private TransactionType type;
-    private Long amount;
+    private Double amount;
     private String description;
 }

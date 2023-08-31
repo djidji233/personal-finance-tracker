@@ -20,7 +20,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    private Long amount;
+    private Double amount;
 
     private String description;
 
