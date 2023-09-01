@@ -1,9 +1,12 @@
 package com.talentwunder.financetracker.controller;
 
-import com.talentwunder.financetracker.model.request.TransactionRequest;
+import com.talentwunder.financetracker.exception.ApiException;
+import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
+import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
 import com.talentwunder.financetracker.service.transaction.TransactionService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.NotNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +24,7 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponse> create(@Valid @RequestBody TransactionRequest request) {
+    public ResponseEntity<TransactionResponse> create(@Valid @RequestBody TransactionCreateRequest request) {
         return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 
@@ -37,7 +40,8 @@ public class TransactionController {
     }
 
     @PatchMapping("/{transactionId}")
-    public ResponseEntity<TransactionResponse> update(@PathVariable Long transactionId, @Valid @RequestBody TransactionRequest request) {
+    public ResponseEntity<TransactionResponse> update(@PathVariable Long transactionId, @Valid @RequestBody TransactionUpdateRequest request) {
+        if (request.isEmpty()) throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
         return new ResponseEntity<>(service.update(transactionId, request), HttpStatus.OK);
     }
 

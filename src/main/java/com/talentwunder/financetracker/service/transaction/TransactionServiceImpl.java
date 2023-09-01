@@ -3,7 +3,8 @@ package com.talentwunder.financetracker.service.transaction;
 import com.talentwunder.financetracker.exception.ApiException;
 import com.talentwunder.financetracker.mapper.TransactionMapper;
 import com.talentwunder.financetracker.model.entity.Transaction;
-import com.talentwunder.financetracker.model.request.TransactionRequest;
+import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
+import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
 import com.talentwunder.financetracker.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
@@ -26,8 +27,8 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionResponse create(TransactionRequest request) {
-        Transaction entity = mapper.mapRequestToEntity(new Transaction(), request);
+    public TransactionResponse create(TransactionCreateRequest request) {
+        Transaction entity = mapper.mapCreateRequestToEntity(new Transaction(), request);
         try {
             repository.save(entity);
         } catch (Exception e) {
@@ -38,9 +39,9 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionResponse update(Long transactionId, TransactionRequest request) {
+    public TransactionResponse update(Long transactionId, TransactionUpdateRequest request) {
         Transaction entity = repository.findById(transactionId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
-        entity = mapper.mapRequestToEntity(entity, request);
+        entity = mapper.mapUpdateRequestToEntity(entity, request);
         try {
             repository.save(entity);
         } catch (Exception e) {
