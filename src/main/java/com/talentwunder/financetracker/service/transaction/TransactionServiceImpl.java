@@ -3,9 +3,11 @@ package com.talentwunder.financetracker.service.transaction;
 import com.talentwunder.financetracker.exception.ApiException;
 import com.talentwunder.financetracker.mapper.TransactionMapper;
 import com.talentwunder.financetracker.model.entity.Transaction;
+import com.talentwunder.financetracker.model.entity.TransactionType;
 import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
 import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
+import com.talentwunder.financetracker.model.response.TransactionSummaryResponse;
 import com.talentwunder.financetracker.repository.TransactionRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
@@ -70,5 +72,30 @@ public class TransactionServiceImpl implements TransactionService {
             throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - findAll");
         }
         return entities.stream().map(mapper::mapEntityToResponse).collect(Collectors.toList());
+    }
+
+    @Override
+    public TransactionSummaryResponse getSummary() {
+        List<Transaction> entities;
+        try {
+            entities = repository.findAll();
+        } catch (Exception e) {
+            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - findAll");
+        }
+        double income = 0;
+        double expense = 0;
+        for (Transaction t : entities) {
+            if (t.getType() == TransactionType.INCOME) {
+                income += t.getAmount();
+            } else if (t.getType() == TransactionType.EXPENSE) {
+                expense += t.getAmount();
+            }
+        }
+
+        return TransactionSummaryResponse.builder()
+                .totalIncome(income)
+                .totalExpense(expense)
+                .balance(income - expense)
+                .build();
     }
 }

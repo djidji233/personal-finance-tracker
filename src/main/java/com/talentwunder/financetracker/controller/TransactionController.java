@@ -4,6 +4,7 @@ import com.talentwunder.financetracker.exception.ApiException;
 import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
 import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
+import com.talentwunder.financetracker.model.response.TransactionSummaryResponse;
 import com.talentwunder.financetracker.service.transaction.TransactionService;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -31,6 +32,11 @@ public class TransactionController {
     @GetMapping
     public ResponseEntity<List<TransactionResponse>> findAll() {
         return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
+    }
+
+    @GetMapping("/summary")
+    public ResponseEntity<TransactionSummaryResponse> getSummary(){
+        return new ResponseEntity<>(service.getSummary(), HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")
