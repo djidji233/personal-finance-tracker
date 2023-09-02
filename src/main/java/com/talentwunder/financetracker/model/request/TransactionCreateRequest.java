@@ -12,7 +12,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TransactionCreateRequest {
-    //TODO add comments to explain code
     @NotNull(message = "Transaction type must be provided")
     private TransactionType type;
 

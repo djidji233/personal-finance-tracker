@@ -20,7 +20,9 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Long> create(@RequestBody UserCreateRequest request) {
+    public ResponseEntity<Long> create(
+            @RequestBody UserCreateRequest request
+    ) {
         return new ResponseEntity<>(service.create(request), HttpStatus.OK);
     }
 

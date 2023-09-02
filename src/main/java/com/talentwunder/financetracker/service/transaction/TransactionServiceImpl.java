@@ -25,7 +25,11 @@ public class TransactionServiceImpl implements TransactionService {
     private final TransactionMapper mapper;
     private final UserRepository userRepository;
 
-    public TransactionServiceImpl(TransactionRepository repository, TransactionMapper mapper, UserRepository userRepository) {
+    public TransactionServiceImpl(
+            TransactionRepository repository,
+            TransactionMapper mapper,
+            UserRepository userRepository
+    ) {
         this.repository = repository;
         this.mapper = mapper;
         this.userRepository = userRepository;
@@ -34,7 +38,8 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public TransactionResponse create(Long userId, TransactionCreateRequest request) {
-        User user = userRepository.findById(userId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - create"));
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - create"));
         Transaction entity = mapper.mapCreateRequestToEntity(new Transaction(), request);
         entity.setUser(user);
         repository.save(entity);
@@ -43,10 +48,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionResponse update(Long transactionId, TransactionUpdateRequest request) {
+    public TransactionResponse update(Long userId, Long transactionId, TransactionUpdateRequest request) {
         if (request.isEmpty()) // no need to send the request further if the body is empty
             throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
-        Transaction entity = repository.findById(transactionId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
+
+        Transaction entity = repository.findById(transactionId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
+        if (!entity.getUser().getId().equals(userId))
+            throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can update only your transactions", "Transaction - update");
         entity = mapper.mapUpdateRequestToEntity(entity, request);
         repository.save(entity);
         return mapper.mapEntityToResponse(entity);
@@ -55,14 +64,17 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public void delete(Long userId, Long transactionId) {
-        Transaction entity = repository.findById(transactionId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
-        if (!entity.getUser().getId().equals(userId)) throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can delete only your transactions", "Transaction - delete");
+        Transaction entity = repository.findById(transactionId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
+        if (!entity.getUser().getId().equals(userId))
+            throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can delete only your transactions", "Transaction - delete");
         repository.delete(entity);
     }
 
     @Override
     public TransactionSummaryResponse findAll(Long userId) {
-        userRepository.findById(userId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
+        userRepository.findById(userId)
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
         List<Transaction> entities = repository.findAllByUserId(userId);
         double income = 0;
         double expense = 0;

@@ -21,7 +21,7 @@ public class TransactionUpdateRequest {
     private String description;
 
 
-    public boolean isEmpty() { //no need to send request if the body is empty
+    public boolean isEmpty() { // helper method
         return type == null && amount == null && description == null;
     }
 
