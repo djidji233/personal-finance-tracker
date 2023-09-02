@@ -60,14 +60,9 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public List<TransactionResponse> findAll() {
-        List<Transaction> entities = repository.findAll();
-        return entities.stream().map(mapper::mapEntityToResponse).collect(Collectors.toList());
-    }
-
-    @Override
-    public TransactionSummaryResponse getSummary() {
-        List<Transaction> entities = repository.findAll();
+    public TransactionSummaryResponse findAll(Long userId) {
+        userRepository.findById(userId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
+        List<Transaction> entities = repository.findAllByUserId(userId);
         double income = 0;
         double expense = 0;
         for (Transaction t : entities) {
@@ -78,9 +73,11 @@ public class TransactionServiceImpl implements TransactionService {
             }
         }
         return TransactionSummaryResponse.builder()
+                .balance(income - expense)
                 .totalIncome(income)
                 .totalExpense(expense)
-                .balance(income - expense)
+                .transactions(entities.stream().map(mapper::mapEntityToResponse).collect(Collectors.toList()))
                 .build();
     }
+
 }

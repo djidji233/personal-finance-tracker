@@ -30,13 +30,8 @@ public class TransactionController {
     }
 
     @GetMapping
-    public ResponseEntity<List<TransactionResponse>> findAll() {
-        return new ResponseEntity<>(service.findAll(), HttpStatus.OK);
-    }
-
-    @GetMapping("/summary")
-    public ResponseEntity<TransactionSummaryResponse> getSummary() {
-        return new ResponseEntity<>(service.getSummary(), HttpStatus.OK);
+    public ResponseEntity<TransactionSummaryResponse> findAll(@RequestParam Long userId) {
+        return new ResponseEntity<>(service.findAll(userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")

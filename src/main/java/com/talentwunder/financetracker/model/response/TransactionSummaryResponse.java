@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -13,4 +15,5 @@ public class TransactionSummaryResponse {
     private Double balance;
     private Double totalIncome;
     private Double totalExpense;
+    private List<TransactionResponse> transactions;
 }
