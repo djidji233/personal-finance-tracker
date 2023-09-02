@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TransactionResponse {
     private Long id;
+    private Long userId;
     private TransactionType type;
     private Double amount;
     private String description;

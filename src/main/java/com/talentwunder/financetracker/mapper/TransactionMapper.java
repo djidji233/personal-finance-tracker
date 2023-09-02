@@ -27,6 +27,7 @@ public class TransactionMapper {
     public TransactionResponse mapEntityToResponse(Transaction entity) {
         return TransactionResponse.builder()
                 .id(entity.getId())
+                .userId(entity.getUser().getId())
                 .type(entity.getType())
                 .amount(entity.getAmount())
                 .description(entity.getDescription())

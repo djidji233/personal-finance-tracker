@@ -25,8 +25,8 @@ public class TransactionController {
     }
 
     @PostMapping
-    public ResponseEntity<TransactionResponse> create(@Valid @RequestBody TransactionCreateRequest request) {
-        return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
+    public ResponseEntity<TransactionResponse> create(@RequestParam Long userId, @Valid @RequestBody TransactionCreateRequest request) {
+        return new ResponseEntity<>(service.create(userId, request), HttpStatus.CREATED);
     }
 
     @GetMapping
@@ -35,7 +35,7 @@ public class TransactionController {
     }
 
     @GetMapping("/summary")
-    public ResponseEntity<TransactionSummaryResponse> getSummary(){
+    public ResponseEntity<TransactionSummaryResponse> getSummary() {
         return new ResponseEntity<>(service.getSummary(), HttpStatus.OK);
     }
 
@@ -47,7 +47,8 @@ public class TransactionController {
 
     @PatchMapping("/{transactionId}")
     public ResponseEntity<TransactionResponse> update(@PathVariable Long transactionId, @Valid @RequestBody TransactionUpdateRequest request) {
-        if (request.isEmpty()) throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
+        if (request.isEmpty())
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
         return new ResponseEntity<>(service.update(transactionId, request), HttpStatus.OK);
     }
 
