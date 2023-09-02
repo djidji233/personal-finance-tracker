@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,7 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionSummaryResponse findAll(Long userId) {
+    public TransactionSummaryResponse findAll(TransactionType type, Long userId) {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
         List<Transaction> entities = repository.findAllByUserId(userId);
@@ -84,6 +85,16 @@ public class TransactionServiceImpl implements TransactionService {
             } else if (t.getType() == TransactionType.EXPENSE) {
                 expense += t.getAmount();
             }
+        }
+        if (type == TransactionType.INCOME) {
+            entities = entities.stream()
+                    .filter(transaction -> transaction.getType() == TransactionType.INCOME)
+                    .collect(Collectors.toList());
+        } else if (type == TransactionType.EXPENSE) {
+            entities = entities.stream()
+                    .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
+                    .collect(Collectors.toList());
+
         }
         return TransactionSummaryResponse.builder()
                 .balance(income - expense)

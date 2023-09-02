@@ -1,5 +1,6 @@
 package com.talentwunder.financetracker.controller;
 
+import com.talentwunder.financetracker.model.entity.TransactionType;
 import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
 import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
@@ -31,9 +32,10 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<TransactionSummaryResponse> findAll(
-            @RequestParam Long userId
+            @RequestParam Long userId,
+            @RequestParam(required = false) TransactionType type
     ) {
-        return new ResponseEntity<>(service.findAll(userId), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll(type, userId), HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")
