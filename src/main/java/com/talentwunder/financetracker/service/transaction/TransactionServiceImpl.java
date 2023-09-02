@@ -41,7 +41,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionResponse create(Long userId, TransactionCreateRequest request) {
         User user = userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - create"));
-        Transaction entity = mapper.mapCreateRequestToEntity(new Transaction(), request);
+        Transaction entity = mapper.mapRequestToEntity(new Transaction(), request);
         entity.setUser(user);
         repository.save(entity);
         return mapper.mapEntityToResponse(entity);
@@ -57,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
         if (!entity.getUser().getId().equals(userId))
             throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can update only your transactions", "Transaction - update");
-        entity = mapper.mapUpdateRequestToEntity(entity, request);
+        entity = mapper.mapRequestToEntity(entity, request);
         repository.save(entity);
         return mapper.mapEntityToResponse(entity);
     }

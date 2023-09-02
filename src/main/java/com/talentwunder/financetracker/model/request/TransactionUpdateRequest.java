@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionUpdateRequest {
+public class TransactionUpdateRequest implements TransactionRequest {
 
     private TransactionType type;
 

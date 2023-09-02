@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransactionCreateRequest {
+public class TransactionCreateRequest implements TransactionRequest {
     @NotNull(message = "Transaction type must be provided")
     private TransactionType type;
 
