@@ -35,8 +35,8 @@ public class TransactionController {
     }
 
     @DeleteMapping("/{transactionId}")
-    public ResponseEntity<?> delete(@PathVariable Long transactionId) {
-        service.delete(transactionId);
+    public ResponseEntity<?> delete(@RequestParam Long userId, @PathVariable Long transactionId) {
+        service.delete(userId, transactionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
