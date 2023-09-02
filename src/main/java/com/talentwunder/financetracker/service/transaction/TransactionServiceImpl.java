@@ -44,46 +44,30 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     @Transactional
     public TransactionResponse update(Long transactionId, TransactionUpdateRequest request) {
+        if (request.isEmpty()) // no need to send the request further if the body is empty
+            throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
         Transaction entity = repository.findById(transactionId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
         entity = mapper.mapUpdateRequestToEntity(entity, request);
-        try {
-            repository.save(entity);
-        } catch (Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - update");
-        }
+        repository.save(entity);
         return mapper.mapEntityToResponse(entity);
     }
 
     @Override
     @Transactional
-    public void delete(Long id) {
-        Transaction entity = repository.findById(id).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
-        try {
-            repository.delete(entity);
-        } catch (Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - delete");
-        }
+    public void delete(Long transactionId) {
+        Transaction entity = repository.findById(transactionId).orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
+        repository.delete(entity);
     }
 
     @Override
     public List<TransactionResponse> findAll() {
-        List<Transaction> entities;
-        try {
-            entities = repository.findAll();
-        } catch (Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - findAll");
-        }
+        List<Transaction> entities = repository.findAll();
         return entities.stream().map(mapper::mapEntityToResponse).collect(Collectors.toList());
     }
 
     @Override
     public TransactionSummaryResponse getSummary() {
-        List<Transaction> entities;
-        try {
-            entities = repository.findAll();
-        } catch (Exception e) {
-            throw new ApiException(HttpStatus.INTERNAL_SERVER_ERROR, "Error while communicating with database", "Transaction - findAll");
-        }
+        List<Transaction> entities = repository.findAll();
         double income = 0;
         double expense = 0;
         for (Transaction t : entities) {
@@ -93,7 +77,6 @@ public class TransactionServiceImpl implements TransactionService {
                 expense += t.getAmount();
             }
         }
-
         return TransactionSummaryResponse.builder()
                 .totalIncome(income)
                 .totalExpense(expense)

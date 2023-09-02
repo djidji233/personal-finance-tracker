@@ -12,7 +12,7 @@ public interface TransactionService {
 
     TransactionResponse update(Long transactionId, TransactionUpdateRequest request);
 
-    void delete(Long id);
+    void delete(Long transactionId);
 
     List<TransactionResponse> findAll();
 

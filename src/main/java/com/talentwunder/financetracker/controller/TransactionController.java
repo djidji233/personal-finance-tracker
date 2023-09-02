@@ -47,8 +47,6 @@ public class TransactionController {
 
     @PatchMapping("/{transactionId}")
     public ResponseEntity<TransactionResponse> update(@PathVariable Long transactionId, @Valid @RequestBody TransactionUpdateRequest request) {
-        if (request.isEmpty())
-            throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
         return new ResponseEntity<>(service.update(transactionId, request), HttpStatus.OK);
     }
 
