@@ -1,4 +1,4 @@
-package com.talentwunder.financetracker.service.transaction;
+package com.talentwunder.financetracker.service;
 
 import com.talentwunder.financetracker.model.entity.TransactionType;
 import com.talentwunder.financetracker.model.request.TransactionCreateRequest;

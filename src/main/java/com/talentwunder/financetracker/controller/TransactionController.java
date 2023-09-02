@@ -5,7 +5,7 @@ import com.talentwunder.financetracker.model.request.TransactionCreateRequest;
 import com.talentwunder.financetracker.model.request.TransactionUpdateRequest;
 import com.talentwunder.financetracker.model.response.TransactionResponse;
 import com.talentwunder.financetracker.model.response.TransactionSummaryResponse;
-import com.talentwunder.financetracker.service.transaction.TransactionService;
+import com.talentwunder.financetracker.service.TransactionService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

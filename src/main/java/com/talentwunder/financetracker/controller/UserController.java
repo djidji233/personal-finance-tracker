@@ -1,7 +1,7 @@
 package com.talentwunder.financetracker.controller;
 
 import com.talentwunder.financetracker.model.request.UserCreateRequest;
-import com.talentwunder.financetracker.service.user.UserService;
+import com.talentwunder.financetracker.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

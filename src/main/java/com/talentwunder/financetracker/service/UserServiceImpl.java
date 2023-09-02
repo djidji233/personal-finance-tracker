@@ -1,4 +1,4 @@
-package com.talentwunder.financetracker.service.user;
+package com.talentwunder.financetracker.service;
 
 import com.talentwunder.financetracker.model.entity.User;
 import com.talentwunder.financetracker.model.request.UserCreateRequest;
