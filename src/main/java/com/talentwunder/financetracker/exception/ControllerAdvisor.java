@@ -25,7 +25,7 @@ public class ControllerAdvisor {
             String errorMessage = error.getDefaultMessage();
             errors.put(fieldName, errorMessage);
         }
-        //TODO mozda i ovde vratiti Error objekat
+        //TODO maybe use Error object here too
         return errors;
     }
 

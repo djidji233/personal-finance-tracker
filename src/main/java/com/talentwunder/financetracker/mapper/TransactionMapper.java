@@ -10,7 +10,7 @@ import org.springframework.stereotype.Component;
 public class TransactionMapper {
 
     public Transaction mapCreateRequestToEntity(Transaction entity, TransactionCreateRequest request) {
-        //TODO mozda moze da bude sve 1 metod koji prima ili create ili update request object
+        //TODO maybe no need for 2 methods for create and update
         entity.setType(request.getType());
         entity.setAmount(request.getAmount());
         entity.setDescription(request.getDescription());
