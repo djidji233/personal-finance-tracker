@@ -1,5 +1,6 @@
 package com.talentwunder.financetracker.model.request;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.talentwunder.financetracker.model.entity.TransactionType;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -22,7 +23,7 @@ public class TransactionUpdateRequest implements TransactionRequest {
     @Size(min = 1, message = "Description must be provided")
     private String description;
 
-
+    @JsonIgnore // it was showing in swagger-ui as a field of this class
     public boolean isEmpty() { // helper method
         return type == null && amount == null && description == null;
     }
