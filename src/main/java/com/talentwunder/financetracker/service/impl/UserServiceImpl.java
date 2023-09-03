@@ -1,8 +1,9 @@
-package com.talentwunder.financetracker.service;
+package com.talentwunder.financetracker.service.impl;
 
 import com.talentwunder.financetracker.model.entity.User;
 import com.talentwunder.financetracker.model.request.UserCreateRequest;
 import com.talentwunder.financetracker.repository.UserRepository;
+import com.talentwunder.financetracker.service.UserService;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 

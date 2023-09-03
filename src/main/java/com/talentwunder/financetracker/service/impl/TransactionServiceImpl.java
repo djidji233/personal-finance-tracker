@@ -1,4 +1,4 @@
-package com.talentwunder.financetracker.service;
+package com.talentwunder.financetracker.service.impl;
 
 import com.talentwunder.financetracker.exception.ApiException;
 import com.talentwunder.financetracker.mapper.TransactionMapper;
@@ -11,6 +11,7 @@ import com.talentwunder.financetracker.model.response.TransactionResponse;
 import com.talentwunder.financetracker.model.response.TransactionSummaryResponse;
 import com.talentwunder.financetracker.repository.TransactionRepository;
 import com.talentwunder.financetracker.repository.UserRepository;
+import com.talentwunder.financetracker.service.TransactionService;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
