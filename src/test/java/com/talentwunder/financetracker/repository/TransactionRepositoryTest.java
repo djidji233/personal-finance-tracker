@@ -34,21 +34,21 @@ public class TransactionRepositoryTest {
 
     @Test
     public void TransactionRepository_Save_ReturnSavedTransaction() {
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
                 .user(mockUser).build();
-        //act
+        // act
         Transaction savedTransaction = transactionRepository.save(transaction);
-        //assert
+        // assert
         Assertions.assertThat(savedTransaction).isNotNull();
         Assertions.assertThat(savedTransaction.getId()).isGreaterThan(0L);
     }
 
     @Test
     public void TransactionRepository_FindAll_ReturnMoreThanOneTransaction(){
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
@@ -60,32 +60,32 @@ public class TransactionRepositoryTest {
 
         transactionRepository.save(transaction);
         transactionRepository.save(transaction2);
-        //act
+        // act
         List<Transaction> transactions = transactionRepository.findAll();
-        //assert
+        // assert
         Assertions.assertThat(transactions).isNotNull();
         Assertions.assertThat(transactions.size()).isEqualTo(2);
     }
 
     @Test
     public void TransactionRepository_FindById_ReturnTransaction(){
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
                 .user(mockUser).build();
 
         transactionRepository.save(transaction);
-        //act
+        // act
         Transaction savedTransaction = transactionRepository.findById(transaction.getId()).get();
-        //assert
+        // assert
         Assertions.assertThat(savedTransaction).isNotNull();
         Assertions.assertThat(savedTransaction.getId()).isGreaterThan(0L);
     }
 
     @Test
     public void TransactionRepository_FindByUserId_ReturnTransaction(){
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
@@ -97,16 +97,16 @@ public class TransactionRepositoryTest {
 
         transactionRepository.save(transaction);
         transactionRepository.save(transaction2);
-        //act
+        // act
         List<Transaction> transactions = transactionRepository.findAllByUserId(mockUser.getId());
-        //assert
+        // assert
         Assertions.assertThat(transactions).isNotNull();
         Assertions.assertThat(transactions.size()).isEqualTo(2);
     }
 
     @Test
     public void TransactionRepository_UpdateTransaction_ReturnTransaction(){
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
@@ -116,9 +116,9 @@ public class TransactionRepositoryTest {
         Transaction savedTransaction = transactionRepository.findById(transaction.getId()).get();
         savedTransaction.setAmount(new BigDecimal(3));
         savedTransaction.setDescription("update");
-        //act
+        // act
         Transaction updatedTransaction = transactionRepository.save(savedTransaction);
-        //assert
+        // assert
         Assertions.assertThat(updatedTransaction).isNotNull();
         Assertions.assertThat(updatedTransaction.getAmount()).isEqualTo(BigDecimal.valueOf(3));
         Assertions.assertThat(updatedTransaction.getDescription()).isEqualTo("update");
@@ -126,17 +126,17 @@ public class TransactionRepositoryTest {
 
     @Test
     public void TransactionRepository_Delete_ReturnTransactionIsEmpty(){
-        //arrange
+        // arrange
         Transaction transaction = Transaction.builder()
                 .amount(new BigDecimal(1))
                 .description("test")
                 .user(mockUser).build();
 
         transactionRepository.save(transaction);
-        //act
+        // act
         transactionRepository.deleteById(transaction.getId());
         Optional<Transaction> transactionOptional = transactionRepository.findById(transaction.getId());
-        //assert
+        // assert
         Assertions.assertThat(transactionOptional).isEmpty();
     }
 
