@@ -15,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -76,13 +77,13 @@ public class TransactionServiceImpl implements TransactionService {
         userRepository.findById(userId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
         List<Transaction> entities = repository.findAllByUserId(userId);
-        double income = 0;
-        double expense = 0;
+        BigDecimal income = new BigDecimal(0);
+        BigDecimal expense = new BigDecimal(0);
         for (Transaction t : entities) {
             if (t.getType() == TransactionType.INCOME) {
-                income += t.getAmount();
+                income = income.add(t.getAmount());
             } else if (t.getType() == TransactionType.EXPENSE) {
-                expense += t.getAmount();
+                expense = expense.add(t.getAmount());
             }
         }
         if (type == TransactionType.INCOME) {
@@ -93,10 +94,9 @@ public class TransactionServiceImpl implements TransactionService {
             entities = entities.stream()
                     .filter(transaction -> transaction.getType() == TransactionType.EXPENSE)
                     .collect(Collectors.toList());
-
         }
         return TransactionSummaryResponse.builder()
-                .balance(income - expense)
+                .balance(income.subtract(expense))
                 .totalIncome(income)
                 .totalExpense(expense)
                 .transactions(entities.stream().map(mapper::mapEntityToResponse).collect(Collectors.toList()))

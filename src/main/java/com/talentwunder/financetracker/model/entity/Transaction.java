@@ -3,6 +3,8 @@ package com.talentwunder.financetracker.model.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Entity
 @Table(name = "TRANSACTIONS")
 @Data
@@ -18,7 +20,7 @@ public class Transaction {
     @Enumerated(EnumType.STRING)
     private TransactionType type;
 
-    private Double amount;
+    private BigDecimal amount;
 
     private String description;
 
