@@ -162,7 +162,7 @@ public class TransactionServiceTest {
         when(transactionRepository.findAllByUserId(1L)).thenReturn(List.of(transaction,transaction2));
 
         // act
-        TransactionSummaryResponse response = transactionService.findAll(null,1L);
+        TransactionSummaryResponse response = transactionService.findAll(null); //TODO fix tests
 
         // assert
         Assertions.assertThat(response).isNotNull();
@@ -197,7 +197,7 @@ public class TransactionServiceTest {
         when(transactionRepository.findAllByUserId(1L)).thenReturn(List.of(transaction,transaction2));
 
         // act
-        TransactionSummaryResponse response = transactionService.findAll(transaction.getType(),1L);
+        TransactionSummaryResponse response = transactionService.findAll(transaction.getType()); //TODO fix tests
 
         // assert
         Assertions.assertThat(response).isNotNull();

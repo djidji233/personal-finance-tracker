@@ -14,5 +14,5 @@ public interface TransactionService {
 
     void delete(Long userId, Long transactionId);
 
-    TransactionSummaryResponse findAll(TransactionType type, Long userId);
+    TransactionSummaryResponse findAll(TransactionType type);
 }

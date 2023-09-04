@@ -31,10 +31,9 @@ public class TransactionController {
 
     @GetMapping
     public ResponseEntity<TransactionSummaryResponse> findAll(
-            @RequestParam Long userId,
             @RequestParam(required = false) TransactionType type
     ) {
-        return new ResponseEntity<>(service.findAll(type, userId), HttpStatus.OK);
+        return new ResponseEntity<>(service.findAll(type), HttpStatus.OK);
     }
 
     @DeleteMapping("/{transactionId}")

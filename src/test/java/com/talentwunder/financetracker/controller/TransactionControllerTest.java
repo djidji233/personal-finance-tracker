@@ -102,7 +102,7 @@ class TransactionControllerTest {
                 .balance(new BigDecimal(1))
                 .totalIncome(new BigDecimal(1))
                 .totalExpense(new BigDecimal(0)).build();
-        when(transactionService.findAll(null, 1L)).thenReturn(summaryResponse);
+        when(transactionService.findAll(null)).thenReturn(summaryResponse); //TODO fix tests
 
         ResultActions response = mockMvc.perform(get("/transaction")
                 .param("userId", "1"));

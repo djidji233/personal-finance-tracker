@@ -83,10 +83,16 @@ public class TransactionServiceImpl implements TransactionService {
     }
 
     @Override
-    public TransactionSummaryResponse findAll(TransactionType type, Long userId) {
-        userRepository.findById(userId)
+    public TransactionSummaryResponse findAll(TransactionType type) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+
+
+        userRepository.findById(loggedInUser.getId())
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - findAll"));
-        List<Transaction> entities = repository.findAllByUserId(userId);
+        List<Transaction> entities = repository.findAllByUserId(loggedInUser.getId());
         BigDecimal income = new BigDecimal(0);
         BigDecimal expense = new BigDecimal(0);
         for (Transaction t : entities) {
