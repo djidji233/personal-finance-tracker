@@ -24,29 +24,13 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-//        http
-//                .csrf()
-//                .disable()
-//                .authorizeHttpRequests()
-//                .requestMatchers("/api/v1/auth/**")
-//                .permitAll()
-//                .anyRequest()
-//                .authenticated()
-//                .and()
-//                .sessionManagement()
-//                .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and()
-//                .authenticationProvider(authenticationProvider)
-//                .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class);
-//
-//        return http.build();
-
         http
                 .csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable)) // for h2-console to work
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(antMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
+                        .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
