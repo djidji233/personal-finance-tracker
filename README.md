@@ -14,4 +14,4 @@ Instructions for using the different endpoints provided can be found at http://l
 
 I would recommend first creating a user at /user which will provide you his ID that can be later used for manipulating his transactions
 
-Spring Security is still not implemented
+Spring Security is still not implemented here (it is a work in progress / partially implemented on AUTH branch)
