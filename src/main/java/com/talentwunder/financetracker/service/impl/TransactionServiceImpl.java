@@ -14,6 +14,9 @@ import com.talentwunder.financetracker.repository.UserRepository;
 import com.talentwunder.financetracker.service.TransactionService;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -39,8 +42,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionResponse create(Long userId, TransactionCreateRequest request) {
-        User user = userRepository.findById(userId)
+    public TransactionResponse create(TransactionCreateRequest request) {
+        // need to be like this because of H2 because there are no users in DB during initialization so I removed it from constructor
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+
+        User user = userRepository.findById(loggedInUser.getId())
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - create"));
         Transaction entity = mapper.mapRequestToEntity(new Transaction(), request);
         entity.setUser(user);

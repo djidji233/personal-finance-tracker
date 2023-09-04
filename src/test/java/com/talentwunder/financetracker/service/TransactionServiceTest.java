@@ -75,7 +75,7 @@ public class TransactionServiceTest {
                 .type(transaction.getType())
                 .amount(transaction.getAmount())
                 .description(transaction.getDescription()).build();
-        TransactionResponse savedTransaction = transactionService.create(mockUser.getId(), createRequest);
+        TransactionResponse savedTransaction = transactionService.create(createRequest); //TODO fix tests
 
         // assert
         Assertions.assertThat(savedTransaction).isNotNull();

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 
 
 @RestController
-@RequestMapping("/transaction")
+@RequestMapping("/api/v1/transaction")
 public class TransactionController {
 
     private final TransactionService service;
@@ -24,10 +24,9 @@ public class TransactionController {
 
     @PostMapping
     public ResponseEntity<TransactionResponse> create(
-            @RequestParam Long userId,
             @Valid @RequestBody TransactionCreateRequest request
     ) {
-        return new ResponseEntity<>(service.create(userId, request), HttpStatus.CREATED);
+        return new ResponseEntity<>(service.create(request), HttpStatus.CREATED);
     }
 
     @GetMapping

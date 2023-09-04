@@ -8,7 +8,7 @@ import com.talentwunder.financetracker.model.response.TransactionSummaryResponse
 
 
 public interface TransactionService {
-    TransactionResponse create(Long userId, TransactionCreateRequest request);
+    TransactionResponse create(TransactionCreateRequest request);
 
     TransactionResponse update(Long userId, Long transactionId, TransactionUpdateRequest request);
 
