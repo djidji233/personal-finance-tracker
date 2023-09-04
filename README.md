@@ -12,6 +12,8 @@ For database it is right now using in-memory H2 so you don't need any additional
 
 Instructions for using the different endpoints provided can be found at http://localhost:8080/swagger-ui/index.html after start up
 
-I would recommend first creating a user at /user which will provide you his ID that can be later used for manipulating his transactions
+I would recommend looking at initial logic and code here, but not testing it through Postman - checkout and test the AUTH branch instead!
 
-Spring Security is still not implemented here (it is a work in progress / partially implemented on AUTH branch)
+There is no Spring Security here and the logic with sending userId as request param is not that intuitive.
+
+This was the initial stage, for which I wrote tests (that are now failing at the auth branch)
