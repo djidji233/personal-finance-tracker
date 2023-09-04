@@ -76,7 +76,7 @@ class TransactionControllerTest {
                 .type(TransactionType.INCOME)
                 .amount(new BigDecimal(22))
                 .description("updated").build();
-        when(transactionService.update(1L, 1L, updateRequest)).thenReturn(response);
+        when(transactionService.update(1L, updateRequest)).thenReturn(response); //TODO fix tests
 
         ResultActions resultActions = mockMvc.perform(patch("/transaction/1")
                 .param("userId", "1")

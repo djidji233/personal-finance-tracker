@@ -46,11 +46,10 @@ public class TransactionController {
 
     @PatchMapping("/{transactionId}")
     public ResponseEntity<TransactionResponse> update(
-            @RequestParam Long userId,
             @PathVariable Long transactionId,
             @Valid @RequestBody TransactionUpdateRequest request
     ) {
-        return new ResponseEntity<>(service.update(userId, transactionId, request), HttpStatus.OK);
+        return new ResponseEntity<>(service.update(transactionId, request), HttpStatus.OK);
     }
 
 }

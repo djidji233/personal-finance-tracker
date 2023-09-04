@@ -125,7 +125,7 @@ public class TransactionServiceTest {
         TransactionUpdateRequest updateRequest = TransactionUpdateRequest.builder()
                 .amount(new BigDecimal(10))
                 .description("updated").build();
-        TransactionResponse updatedTransaction = transactionService.update(mockUser.getId(), transaction.getId(), updateRequest);
+        TransactionResponse updatedTransaction = transactionService.update(transaction.getId(), updateRequest); //TODO fix tests
 
         // assert
         Assertions.assertThat(updatedTransaction).isNotNull();

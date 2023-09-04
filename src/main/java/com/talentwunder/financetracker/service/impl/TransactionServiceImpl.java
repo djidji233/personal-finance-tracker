@@ -47,7 +47,7 @@ public class TransactionServiceImpl implements TransactionService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User doesn't exist", "TransactionService"));
 
         User user = userRepository.findById(loggedInUser.getId())
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User with that ID doesn't exist", "Transaction - create"));
@@ -59,13 +59,18 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public TransactionResponse update(Long userId, Long transactionId, TransactionUpdateRequest request) {
+    public TransactionResponse update(Long transactionId, TransactionUpdateRequest request) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User doesn't exist", "TransactionService"));
+
         if (request.isEmpty()) // no need to send the request further if the body is empty
             throw new ApiException(HttpStatus.BAD_REQUEST, "Must provide a request body", "Transaction - update");
 
         Transaction entity = repository.findById(transactionId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - update"));
-        if (!entity.getUser().getId().equals(userId))
+        if (!entity.getUser().getId().equals(loggedInUser.getId()))
             throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can update only your transactions", "Transaction - update");
         entity = mapper.mapRequestToEntity(entity, request);
         repository.save(entity);
@@ -74,10 +79,11 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public void delete(Long transactionId) {Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    public void delete(Long transactionId) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User doesn't exist", "TransactionService"));
 
         Transaction entity = repository.findById(transactionId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
@@ -91,7 +97,7 @@ public class TransactionServiceImpl implements TransactionService {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
-                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "User doesn't exist", "TransactionService"));
 
 
         userRepository.findById(loggedInUser.getId())
