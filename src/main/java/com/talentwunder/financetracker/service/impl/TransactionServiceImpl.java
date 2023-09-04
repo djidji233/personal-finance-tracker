@@ -74,10 +74,14 @@ public class TransactionServiceImpl implements TransactionService {
 
     @Override
     @Transactional
-    public void delete(Long userId, Long transactionId) {
+    public void delete(Long transactionId) {Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+        User loggedInUser = userRepository.findByUsername(userDetails.getUsername())
+                .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST,"User doesn't exist","TransactionService"));
+
         Transaction entity = repository.findById(transactionId)
                 .orElseThrow(() -> new ApiException(HttpStatus.BAD_REQUEST, "Transaction with that ID doesn't exist", "Transaction - delete"));
-        if (!entity.getUser().getId().equals(userId))
+        if (!entity.getUser().getId().equals(loggedInUser.getId()))
             throw new ApiException(HttpStatus.METHOD_NOT_ALLOWED, "You can delete only your transactions", "Transaction - delete");
         repository.delete(entity);
     }

@@ -38,10 +38,9 @@ public class TransactionController {
 
     @DeleteMapping("/{transactionId}")
     public ResponseEntity<?> delete(
-            @RequestParam Long userId,
             @PathVariable Long transactionId
     ) {
-        service.delete(userId, transactionId);
+        service.delete(transactionId);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 

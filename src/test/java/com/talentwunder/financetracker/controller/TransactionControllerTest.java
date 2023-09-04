@@ -88,7 +88,7 @@ class TransactionControllerTest {
 
     @Test
     public void TransactionController_DeleteTransaction_ReturnStatus() throws Exception {
-        doNothing().when(transactionService).delete(1L, 1L);
+        doNothing().when(transactionService).delete(1L); //TODO fix tests
 
         ResultActions response = mockMvc.perform(delete("/transaction/1")
                 .param("userId", "1"));

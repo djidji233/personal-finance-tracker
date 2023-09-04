@@ -224,7 +224,7 @@ public class TransactionServiceTest {
                 .user(mockUser).build();
         when(transactionRepository.findById(1L)).thenReturn(Optional.ofNullable(transaction));
         // act & assert
-        assertAll(() -> transactionService.delete(mockUser.getId(), transaction.getId()));
+        assertAll(() -> transactionService.delete(transaction.getId())); //TODO fix tests
 
     }
 
