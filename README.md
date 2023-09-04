@@ -17,3 +17,5 @@ Only /auth endpoints are available at first
 Instructions for using the different endpoints provided can be found at http://localhost:8080/swagger-ui/index.html after start up
 
 Since it is currently using H2 in-memory database you should first /register and when you receive the token, send it as a authorization bearer in all other requests
+
+Because of late Security implementation, the tests are failing here
