@@ -30,7 +30,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers(antMatcher("/api/v1/auth/**")).permitAll()
                         .requestMatchers(antMatcher("/h2-console/**")).permitAll()
-                        .requestMatchers(antMatcher("/swagger-ui/**")).permitAll()
+                        .requestMatchers(antMatcher("/swagger-ui/**"), antMatcher("/v3/api-docs/**")).permitAll()
                         .anyRequest().authenticated()
                 )
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
